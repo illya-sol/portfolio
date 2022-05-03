@@ -11,7 +11,7 @@ const Index = () => {
   const router = useRouter();
   useEffect(() => {
     initThree(router.basePath);
-  }, []);
+  }, [router.basePath]);
 
   return (
     <div className="bg-indigo-500 antialiased w-full text-dark-third px-1">
