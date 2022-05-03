@@ -1,13 +1,16 @@
 import { useEffect } from 'react';
 
+import { useRouter } from 'next/router';
+
 import Footer from '../layout/Footer';
 import Header from '../layout/Header';
 import { initThree } from '../threejs/init';
 import { AppConfig } from '../utils/AppConfig';
 
 const Index = () => {
+  const router = useRouter();
   useEffect(() => {
-    initThree();
+    initThree(router.basePath);
   }, []);
 
   return (
