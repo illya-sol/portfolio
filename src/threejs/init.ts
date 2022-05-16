@@ -6,9 +6,11 @@ export const initThree = (basePath: string) => {
   const scene = new three.Scene();
 
   const camera = new three.PerspectiveCamera(
-    60,
+    75,
     window.innerWidth / window.innerHeight
   );
+  camera.zoom = 2;
+  camera.updateProjectionMatrix();
 
   const renderer = new three.WebGLRenderer({
     canvas: document.getElementById('renderElement')!,
@@ -17,7 +19,9 @@ export const initThree = (basePath: string) => {
 
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(300, 300);
-  camera.position.setZ(80);
+  camera.rotation.z = Math.PI / 180;
+  camera.position.setZ(60);
+  camera.position.setY(25);
 
   renderer.render(scene, camera);
 
@@ -38,8 +42,8 @@ export const initThree = (basePath: string) => {
   const lightHelper = new three.PointLightHelper(pointLight);
   scene.add(lightHelper);
 
-  const gridHelper = new three.GridHelper(200, 50);
-  scene.add(gridHelper);
+  // const gridHelper = new three.GridHelper(200, 50);
+  // scene.add(gridHelper);
 
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.update();
@@ -59,11 +63,10 @@ export const initThree = (basePath: string) => {
       // scene.add(gltf.scene);
     }
   });
-
   function mainLoop() {
     requestAnimationFrame(mainLoop);
-    box.rotation.y += 0.006;
-    logo.rotation.z += 0.006;
+    // box.rotation.y += 0.006;
+    logo.rotation.z = Math.sin(Date.now() * 0.003) * 0.4;
     controls.update();
     renderer.render(scene, camera);
   }
