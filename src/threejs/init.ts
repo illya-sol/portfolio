@@ -15,6 +15,7 @@ export const initThree = (basePath: string) => {
   const renderer = new three.WebGLRenderer({
     canvas: document.getElementById('renderElement')!,
     alpha: true,
+    antialias: true,
   });
 
   renderer.setPixelRatio(window.devicePixelRatio);
