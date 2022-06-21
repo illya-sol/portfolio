@@ -1,19 +1,20 @@
-import * as three from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import * as THREE from 'THREE';
+import { OrbitControls } from 'THREE/examples/jsm/controls/OrbitControls';
+import { GLTFLoader } from 'THREE/examples/jsm/loaders/GLTFLoader';
+
+const container = document.getElementById('renderElement')!;
+const resX = window.innerWidth;
+const resY = window.innerHeight;
 
 export const initThree = (basePath: string) => {
-  const scene = new three.Scene();
+  const scene = new THREE.Scene();
 
-  const camera = new three.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight
-  );
-  camera.zoom = 2;
+  const camera = new THREE.PerspectiveCamera(75, resX / resY);
+  camera.zoom = 1.8;
   camera.updateProjectionMatrix();
 
-  const renderer = new three.WebGLRenderer({
-    canvas: document.getElementById('renderElement')!,
+  const renderer = new THREE.WebGLRenderer({
+    canvas: container,
     alpha: true,
     antialias: true,
   });
@@ -22,35 +23,37 @@ export const initThree = (basePath: string) => {
   renderer.setSize(300, 300);
   camera.rotation.z = Math.PI / 180;
   camera.position.setZ(60);
-  camera.position.setY(25);
+  camera.position.setY(28);
+  camera.rotation.z = Math.PI / 35;
 
   renderer.render(scene, camera);
 
-  const geometry = new three.BoxGeometry(50, 50, 2);
-  const material = new three.MeshStandardMaterial({
+  const geometry = new THREE.BoxGeometry(50, 50, 2);
+  const material = new THREE.MeshStandardMaterial({
     color: '#FF5733',
   });
-  const box = new three.Mesh(geometry, material);
-  box.material.side = three.DoubleSide;
+  const box = new THREE.Mesh(geometry, material);
+  box.material.side = THREE.DoubleSide;
   // scene.add(box);
 
-  const pointLight = new three.PointLight(0xffffff);
-  pointLight.position.set(30, 30, 20);
+  const pointLight = new THREE.PointLight(0xffffff);
+  pointLight.intensity = 0.75;
+  pointLight.position.set(5, 25, 30);
 
-  const ambientLight = new three.AmbientLight(0x404040);
+  const ambientLight = new THREE.AmbientLight(0x404040);
   scene.add(pointLight, ambientLight);
 
-  const lightHelper = new three.PointLightHelper(pointLight);
-  scene.add(lightHelper);
+  // const lightHelper = new THREE.PointLightHelper(pointLight);
+  // scene.add(lightHelper);
 
-  // const gridHelper = new three.GridHelper(200, 50);
+  // const gridHelper = new THREE.GridHelper(200, 50);
   // scene.add(gridHelper);
 
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.update();
 
   const loader = new GLTFLoader();
-  let logo = new three.Object3D();
+  let logo = new THREE.Object3D();
   loader.load(`${basePath}/hh-text.glb`, (gltf) => {
     const scale = 20.0;
     logo = gltf.scene.children[2]!;
@@ -64,6 +67,7 @@ export const initThree = (basePath: string) => {
       // scene.add(gltf.scene);
     }
   });
+
   function mainLoop() {
     requestAnimationFrame(mainLoop);
     // box.rotation.y += 0.006;
