@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+  @apply bg-dark-main;
+  @apply text-dark-third;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+a {
+  @apply text-dark-second;
+  @apply no-underline;
+  @apply inline-block;
+}
+
+a:hover {
+  @apply border-dark-second;
+}
+
+a:after {
+  @apply bg-dark-second;
+  transition: all ease-in-out .5s;
+  content: "";
+  display: block;
+  height: 2.5px;
+  width: 0px;
+}
+
+a:hover:after {
+  width: 100%;
+}
